@@ -8,29 +8,29 @@ public class State
 
 public class FA1
 {
-    private readonly State _q0, _q1, _q2, _q3;
+    private readonly State _start, _hasZero, _accept, _reject;
     private readonly State _initialState;
 
     public FA1()
     {
-        _q0 = new State { Name = "q0", IsAcceptState = false, Transitions = new() };
-        _q1 = new State { Name = "q1", IsAcceptState = false, Transitions = new() };
-        _q2 = new State { Name = "q2", IsAcceptState = true, Transitions = new() };
-        _q3 = new State { Name = "q3", IsAcceptState = false, Transitions = new() };
+        _start = new State { Name = "start", IsAcceptState = false, Transitions = new() };
+        _hasZero = new State { Name = "hasZero", IsAcceptState = false, Transitions = new() };
+        _accept = new State { Name = "accept", IsAcceptState = true, Transitions = new() };
+        _reject = new State { Name = "reject", IsAcceptState = false, Transitions = new() };
 
-        _q0.Transitions['0'] = _q1;
-        _q0.Transitions['1'] = _q0; 
+        _start.Transitions['0'] = _hasZero; 
+        _start.Transitions['1'] = _start;  
 
-        _q1.Transitions['0'] = _q3;  
-        _q1.Transitions['1'] = _q2;  
+        _hasZero.Transitions['0'] = _reject;
+        _hasZero.Transitions['1'] = _accept; 
 
-        _q2.Transitions['0'] = _q3;  
-        _q2.Transitions['1'] = _q2;  
+        _accept.Transitions['0'] = _reject; 
+        _accept.Transitions['1'] = _accept; 
 
-        _q3.Transitions['0'] = _q3;
-        _q3.Transitions['1'] = _q3;
+        _reject.Transitions['0'] = _reject;
+        _reject.Transitions['1'] = _reject;
 
-        _initialState = _q0;
+        _initialState = _start;
     }
 
     public bool? Run(IEnumerable<char> s)
@@ -48,27 +48,27 @@ public class FA1
 
 public class FA2
 {
-    private readonly State _q00, _q01, _q10, _q11;
+    private readonly State _even0_even1, _even0_odd1, _odd0_even1, _odd0_odd1;
     private readonly State _initialState;
 
     public FA2()
     {
-        _q00 = new State { Name = "q00", IsAcceptState = true, Transitions = new() };
-        _q01 = new State { Name = "q01", IsAcceptState = true, Transitions = new() };
-        _q10 = new State { Name = "q10", IsAcceptState = true, Transitions = new() };
-        _q11 = new State { Name = "q11", IsAcceptState = false, Transitions = new() };
+        _even0_even1 = new State { Name = "00", IsAcceptState = false, Transitions = new() }; 
+        _even0_odd1 = new State { Name = "01", IsAcceptState = true, Transitions = new() };  
+        _odd0_even1 = new State { Name = "10", IsAcceptState = true, Transitions = new() }; 
+        _odd0_odd1 = new State { Name = "11", IsAcceptState = true, Transitions = new() };   
 
-        _q00.Transitions['0'] = _q10;
-        _q01.Transitions['0'] = _q11;
-        _q10.Transitions['0'] = _q00;
-        _q11.Transitions['0'] = _q01;
+        _even0_even1.Transitions['0'] = _odd0_even1;
+        _even0_odd1.Transitions['0'] = _odd0_odd1;
+        _odd0_even1.Transitions['0'] = _even0_even1;
+        _odd0_odd1.Transitions['0'] = _even0_odd1;
 
-        _q00.Transitions['1'] = _q01;
-        _q01.Transitions['1'] = _q00;
-        _q10.Transitions['1'] = _q11;
-        _q11.Transitions['1'] = _q10;
+        _even0_even1.Transitions['1'] = _even0_odd1;
+        _even0_odd1.Transitions['1'] = _even0_even1;
+        _odd0_even1.Transitions['1'] = _odd0_odd1;
+        _odd0_odd1.Transitions['1'] = _odd0_even1;
 
-        _initialState = _q00;
+        _initialState = _even0_even1; 
     }
 
     public bool? Run(IEnumerable<char> s)
@@ -83,7 +83,6 @@ public class FA2
         return current.IsAcceptState;
     }
 }
-
 public class FA3
 {
     private readonly State _s0, _s1, _s2;
