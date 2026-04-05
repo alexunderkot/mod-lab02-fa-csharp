@@ -1,6 +1,4 @@
 namespace fans;
-
-// Базовый класс состояния
 public class State
 {
     public string Name { get; set; } = string.Empty;

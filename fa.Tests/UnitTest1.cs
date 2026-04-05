@@ -1,3 +1,5 @@
+using fans; 
+
 namespace fa.Tests;
 
 [TestClass]
