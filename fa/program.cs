@@ -53,10 +53,10 @@ public class FA2
 
     public FA2()
     {
-        _q00 = new State { Name = "q00", IsAcceptState = false, Transitions = new() };
-        _q01 = new State { Name = "q01", IsAcceptState = false, Transitions = new() };
-        _q10 = new State { Name = "q10", IsAcceptState = false, Transitions = new() };
-        _q11 = new State { Name = "q11", IsAcceptState = true, Transitions = new() };
+        _q00 = new State { Name = "q00", IsAcceptState = true, Transitions = new() };
+        _q01 = new State { Name = "q01", IsAcceptState = true, Transitions = new() };
+        _q10 = new State { Name = "q10", IsAcceptState = true, Transitions = new() };
+        _q11 = new State { Name = "q11", IsAcceptState = false, Transitions = new() };
 
         _q00.Transitions['0'] = _q10;
         _q01.Transitions['0'] = _q11;
