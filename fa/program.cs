@@ -1,57 +1,123 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace fans;
 
-namespace fans
+// Базовый класс состояния
+public class State
 {
-  public class State
-  {
-    public string Name;
-    public Dictionary<char, State> Transitions;
-    public bool IsAcceptState;
-  }
+    public string Name { get; set; } = string.Empty;
+    public Dictionary<char, State> Transitions { get; set; } = new();
+    public bool IsAcceptState { get; set; }
+}
 
+public class FA1
+{
+    private readonly State _q0, _q1, _q2, _q3;
+    private readonly State _initialState;
 
-  public class FA1
-  {
+    public FA1()
+    {
+        _q0 = new State { Name = "q0", IsAcceptState = false, Transitions = new() };
+        _q1 = new State { Name = "q1", IsAcceptState = false, Transitions = new() };
+        _q2 = new State { Name = "q2", IsAcceptState = true, Transitions = new() };
+        _q3 = new State { Name = "q3", IsAcceptState = false, Transitions = new() };
+
+        _q0.Transitions['0'] = _q1;
+        _q0.Transitions['1'] = _q0; 
+
+        _q1.Transitions['0'] = _q3;  
+        _q1.Transitions['1'] = _q2;  
+
+        _q2.Transitions['0'] = _q3;  
+        _q2.Transitions['1'] = _q2;  
+
+        _q3.Transitions['0'] = _q3;
+        _q3.Transitions['1'] = _q3;
+
+        _initialState = _q0;
+    }
+
     public bool? Run(IEnumerable<char> s)
     {
-      return false;
+        var current = _initialState;
+        foreach (var c in s)
+        {
+            if (!current.Transitions.TryGetValue(c, out var next))
+                return null;
+            current = next;
+        }
+        return current.IsAcceptState;
     }
-  }
+}
 
-  public class FA2
-  {
+public class FA2
+{
+    private readonly State _q00, _q01, _q10, _q11;
+    private readonly State _initialState;
+
+    public FA2()
+    {
+        _q00 = new State { Name = "q00", IsAcceptState = false, Transitions = new() };
+        _q01 = new State { Name = "q01", IsAcceptState = false, Transitions = new() };
+        _q10 = new State { Name = "q10", IsAcceptState = false, Transitions = new() };
+        _q11 = new State { Name = "q11", IsAcceptState = true, Transitions = new() };
+
+        _q00.Transitions['0'] = _q10;
+        _q01.Transitions['0'] = _q11;
+        _q10.Transitions['0'] = _q00;
+        _q11.Transitions['0'] = _q01;
+
+        _q00.Transitions['1'] = _q01;
+        _q01.Transitions['1'] = _q00;
+        _q10.Transitions['1'] = _q11;
+        _q11.Transitions['1'] = _q10;
+
+        _initialState = _q00;
+    }
+
     public bool? Run(IEnumerable<char> s)
     {
-      return false;
+        var current = _initialState;
+        foreach (var c in s)
+        {
+            if (!current.Transitions.TryGetValue(c, out var next))
+                return null;
+            current = next;
+        }
+        return current.IsAcceptState;
     }
-  }
-  
-  public class FA3
-  {
+}
+
+public class FA3
+{
+    private readonly State _s0, _s1, _s2;
+    private readonly State _initialState;
+
+    public FA3()
+    {
+        _s0 = new State { Name = "s0", IsAcceptState = false, Transitions = new() };
+        _s1 = new State { Name = "s1", IsAcceptState = false, Transitions = new() };
+        _s2 = new State { Name = "s2", IsAcceptState = true, Transitions = new() };
+
+        _s0.Transitions['0'] = _s0;
+        _s0.Transitions['1'] = _s1;  
+
+        _s1.Transitions['0'] = _s0;  
+        _s1.Transitions['1'] = _s2;  
+
+        _s2.Transitions['0'] = _s2;
+        _s2.Transitions['1'] = _s2;
+
+        _initialState = _s0;
+    }
+
     public bool? Run(IEnumerable<char> s)
     {
-      return false;
+        var current = _initialState;
+        foreach (var c in s)
+        {
+            if (!current.Transitions.TryGetValue(c, out var next))
+                return null;
+            current = next;
+        }
+        return current.IsAcceptState;
     }
-  }
-
-  class Program
-  {
-    static void Main(string[] args)
-    {
-      String s = "01111";
-      FA1 fa1 = new FA1();
-      bool? result1 = fa1.Run(s);
-      Console.WriteLine(result1);
-      FA2 fa2 = new FA2();
-      bool? result2 = fa2.Run(s);
-      Console.WriteLine(result2);
-      FA3 fa3 = new FA3();
-      bool? result3 = fa3.Run(s);
-      Console.WriteLine(result3);
-    }
-  }
 }
