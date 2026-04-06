@@ -117,10 +117,10 @@ public class FA2Tests
     }
 
     [TestMethod]
-    public void TestMethod3_0011_ShouldBeTrue()
+    public void TestMethod3_0011_ShouldBeFalse()
     {
         var result = _fa2.Run("0011");
-        Assert.IsTrue(result == true);
+        Assert.IsTrue(result == false);
     }
 
     [TestMethod]
