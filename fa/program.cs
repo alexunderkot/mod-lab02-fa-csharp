@@ -58,8 +58,8 @@ public class FA2
     public FA2()
     {
         _even0_even1 = new State { Name = "00", IsAcceptState = false, Transitions = new() }; 
-        _even0_odd1 = new State { Name = "01", IsAcceptState = true, Transitions = new() };  
-        _odd0_even1 = new State { Name = "10", IsAcceptState = true, Transitions = new() }; 
+        _even0_odd1 = new State { Name = "01", IsAcceptState = false, Transitions = new() };  
+        _odd0_even1 = new State { Name = "10", IsAcceptState = false, Transitions = new() }; 
         _odd0_odd1 = new State { Name = "11", IsAcceptState = true, Transitions = new() };   
 
         _even0_even1.Transitions['0'] = _odd0_even1;
